@@ -2,5 +2,7 @@ services:
   - type: web
     name: str-flask
     env: python
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
     startCommand: "python app.py"
