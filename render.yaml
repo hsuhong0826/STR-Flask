@@ -2,6 +2,5 @@ services:
   - type: web
     name: str-flask
     env: python
-    pythonVersion: 3.10
     buildCommand: ./build.sh
     startCommand: "python app.py"
