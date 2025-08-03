@@ -1,6 +1,6 @@
-pip>=23.1
-setuptools>=65.0
-wheel>=0.38
+pip>=24.0
+setuptools>=70.0
+wheel
 absl-py==2.0.0
 altgraph==0.17.4
 asttokens==2.4.1
