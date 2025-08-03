@@ -1,0 +1,64 @@
+<!DOCTYPE html> <!-- 宣告 HTML5 文件類型 -->
+<html lang="zh-TW"> <!-- 設定語言為繁體中文 -->
+
+<head>
+    <meta charset="UTF-8"> <!-- 設定網頁編碼為 UTF-8 -->
+    <title>忘記密碼</title> <!-- 頁籤顯示的標題 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> <!-- 載入共用的 CSS 樣式 -->
+</head>
+
+<body>
+    <!-- ======= 外層容器：包含整個表單盒子 ======= -->
+    <div class="container"> <!-- 外層容器，控制整體位置與樣式 -->
+        <div class="login-box"> <!-- 登入樣式盒子，重複使用在註冊與登入頁 -->
+
+            <h1>找回密碼</h1> <!-- 標題文字 -->
+
+            <input type="text" id="username" placeholder="帳號"> <!-- 輸入欄位：帳號 -->
+            <input type="text" id="name" placeholder="註冊姓名"> <!-- 輸入欄位：姓名 -->
+
+            <!-- ======= 操作按鈕區塊 ======= -->
+            <div class="login-btns"> <!-- 按鈕容器 -->
+                <button onclick="retrieve()">取得密碼</button> <!-- 呼叫 retrieve() 函式，向後端查詢密碼 -->
+                <button onclick="goBack()">返回</button> <!-- 呼叫 goBack() 函式，返回登入頁 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= 頁尾區塊：版權資訊 ======= -->
+    <footer>
+        hong&wen 版權所有 <!-- 簡單版權聲明文字 -->
+    </footer>
+
+    <!-- ======= JavaScript 程式邏輯 ======= -->
+    <script>
+        // ===== 取得密碼功能（送出帳號與姓名至後端） =====
+        function retrieve() {
+            const username = document.getElementById("username").value.trim(); // 取得帳號欄位並去除前後空白
+            const name = document.getElementById("name").value.trim();         // 取得姓名欄位並去除前後空白
+
+            // 檢查欄位是否為空白
+            if (!username || !name) {
+                alert("請填寫完整資訊！"); // 如果有空白則跳出提醒
+                return; // 停止函式執行
+            }
+
+            // 向後端發送 POST 請求，請求忘記密碼 API
+            fetch("/forget", { // 呼叫本地伺服器的 /forget API
+                method: "POST", // 使用 POST 方法送出資料
+                headers: { "Content-Type": "application/json" }, // 設定資料格式為 JSON
+                body: JSON.stringify({ username, name }) // 將帳號與姓名轉成 JSON 字串傳送
+            })
+                .then(res => res.json()) // 將回應轉換為 JSON 格式
+                .then(data => alert(data.msg)) // 顯示回傳訊息（可能為密碼或錯誤）
+                .catch(err => alert("系統錯誤：" + err)); // 如果連線或後端錯誤則顯示錯誤訊息
+        }
+
+        // ===== 返回登入頁面 =====
+        function goBack() {
+            window.location.href = "/login"; // 導向回登入畫面
+        }
+    </script>
+</body>
+
+</html>

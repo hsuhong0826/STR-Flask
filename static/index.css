@@ -1,0 +1,179 @@
+/* ===== 全域設定 ===== */
+body {
+    margin: 0;
+    /* 清除預設邊距 */
+    padding: 0;
+    /* 清除預設內距 */
+    font-family: "Segoe UI", sans-serif;
+    /* 使用清爽字體 */
+    background: #ccd6df;
+    /* 整體背景為淡藍色 */
+    color: #222;
+    /* 全站文字顏色為深灰 */
+    display: flex;
+    /* 使用 flex 排版 */
+    flex-direction: column;
+    /* 垂直排列 */
+    min-height: 100vh;
+    /* 至少撐滿整個螢幕高度 */
+}
+
+/* ===== 頁首標題區塊 ===== */
+header {
+    background: #d7e6f9;
+    /* 淺藍白背景 */
+    padding: 1px;
+    /* 上下邊距為 1px */
+    text-align: center;
+    /* 標題置中 */
+    font-size: 16px;
+    /* 標題字體大小 */
+    font-weight: bold;
+    /* 標題加粗 */
+    color: #2a2a2a;
+    /* 深灰文字 */
+}
+
+/* ===== 右上角使用者欄（含名字與登出） ===== */
+.user-bar {
+    position: absolute;
+    /* 絕對定位 */
+    top: 20px;
+    /* 距離上方 20px */
+    right: 30px;
+    /* 距離右方 30px */
+    font-size: 16px;
+    /* 字體大小 */
+    display: flex;
+    /* 使用 flex 水平排列 */
+    align-items: center;
+    /* 垂直置中 */
+    gap: 16px;
+    /* 元素間距 16px */
+}
+
+#welcome-text {
+    font-weight: bold;
+    /* 歡迎文字加粗 */
+}
+
+.logout-link {
+    background: none;
+    /* 無底色 */
+    border: none;
+    /* 無邊框 */
+    color: #000;
+    /* 黑色文字 */
+    text-decoration: underline;
+    /* 加底線（強調連結） */
+    cursor: pointer;
+    /* 滑鼠移上為手型 */
+    font-size: 16px;
+    /* 字體大小 */
+    padding: 0;
+    /* 無額外內距 */
+}
+
+/* ===== 主體內容區（含圖片與按鈕） ===== */
+main {
+    flex: 1;
+    /* 撐滿剩餘空間 */
+    display: flex;
+    /* 使用 flex 排版 */
+    justify-content: center;
+    /* 水平置中 */
+    align-items: center;
+    /* 垂直置中 */
+}
+
+/* ===== 圖片區容器（左右圖片 + 箭頭） ===== */
+.image-area {
+    display: flex;
+    /* 使用 flex 水平排列 */
+    justify-content: center;
+    /* 水平置中 */
+    align-items: flex-start;
+    /* 頂端對齊 */
+    gap: 40px;
+    /* 每張圖之間間距為 40px */
+    padding: 20px;
+    /* 圖片區內距為 20px */
+    border-radius: 12px;
+    /* 圓角框線 */
+}
+
+/* ===== 單張圖片框樣式（左圖與右圖） ===== */
+.image-box {
+    width: 350px;
+    /* 固定寬度 */
+    height: 350px;
+    /* 固定高度 */
+    background-color: #f8f6ee;
+    /* 米黃色底色 */
+    border: 2px solid #ccc;
+    /* 淺灰邊框 */
+    margin-bottom: 10px;
+    /* 與下方文字間距 */
+}
+
+/* ===== 上傳區與結果區（文字置中） ===== */
+.upload-section,
+.result-section {
+    text-align: center;
+    /* 內容置中對齊 */
+}
+
+/* ===== 三顆按鈕排版區塊 ===== */
+.button-row {
+    display: flex;
+    /* 使用 flex 水平排列 */
+    justify-content: center;
+    /* 水平置中 */
+    gap: 30px;
+    /* 按鈕間距 30px */
+    margin-top: 1px;
+    /* 與圖片區距離 */
+}
+
+/* ===== 所有按鈕的樣式設定 ===== */
+button {
+    margin: 10px;
+    /* 外距 10px */
+    padding: 20px 50px;
+    /* 上下 20px、左右 50px */
+    background-color: #cde3c2;
+    /* 淺綠色背景 */
+    border: none;
+    /* 無邊框 */
+    border-radius: 5px;
+    /* 圓角邊框 */
+    cursor: pointer;
+    /* 滑鼠移上變手型 */
+    font-size: 18px;
+    /* 字體大小 */
+}
+
+button:hover {
+    background-color: #b6d2aa;
+    /* 滑鼠移上時變成深綠色 */
+}
+
+/* ===== 中間的箭頭樣式（→） ===== */
+.arrow {
+    font-size: 100px;
+    /* 字體超大（顯示大箭頭） */
+    margin-top: 100px;
+    /* 與上方圖保持距離 */
+}
+
+/* ===== 頁尾樣式（版權文字） ===== */
+footer {
+    text-align: center;
+    /* 內容置中 */
+    background: #d7e6f9;
+    /* 淺藍底色 */
+    padding: 10px;
+    /* 上下內距 */
+    font-weight: bold;
+    /* 文字加粗 */
+}

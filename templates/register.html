@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8"> <!-- 設定編碼為 UTF-8 -->
+    <title>註冊 STR 系統</title> <!-- 頁面標題 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> <!-- 引入外部 CSS 樣式表 -->
+</head>
+
+<body>
+    <!-- ✅ 外層容器（置中） -->
+    <div class="container">
+        <div class="login-box"> <!-- 登入/註冊盒子 -->
+            <h1>註冊 STR 系統</h1> <!-- 標題文字 -->
+
+            <input type="text" id="name" placeholder="姓名"> <!-- 姓名輸入欄位 -->
+            <input type="text" id="username" placeholder="帳號"> <!-- 帳號輸入欄位 -->
+            <input type="password" id="password" placeholder="密碼"> <!-- 密碼輸入欄位 -->
+            <input type="password" id="confirm" placeholder="確認密碼"> <!-- 確認密碼欄位 -->
+
+            <p style="font-size: 14px; color: #333;">
+                所有欄位皆為必填，且帳號與密碼長度限制在 20 字以內 <!-- 說明文字 -->
+            </p>
+
+            <!-- ✅ 按鈕區塊 -->
+            <div class="login-btns">
+                <button onclick="register()">註冊</button> <!-- 註冊按鈕 -->
+                <button onclick="window.location.href='/login'">返回登入</button> <!-- 返回登入頁 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 頁尾 -->
+    <footer>
+        hong&wen 版權所有 <!-- 版權資訊 -->
+    </footer>
+
+    <!-- ✅ JavaScript 區塊 -->
+    <script>
+        // 註冊功能
+        function register() {
+            const name = document.getElementById("name").value.trim();            // 取得姓名
+            const username = document.getElementById("username").value.trim();    // 取得帳號
+            const password = document.getElementById("password").value.trim();    // 取得密碼
+            const confirmPassword = document.getElementById("confirm").value.trim(); // 取得確認密碼
+
+            if (!name || !username || !password || !confirmPassword) {           // 檢查是否有空欄位
+                alert("所有欄位都必須填寫！");
+                return;
+            }
+
+            if (username.length > 20 || password.length > 20) {                  // 帳密長度檢查
+                alert("帳號與密碼請勿超過 20 字！");
+                return;
+            }
+
+            if (password !== confirmPassword) {                                  // 密碼一致性檢查
+                alert("密碼與確認密碼不一致！");
+                return;
+            }
+
+            // 發送註冊請求至後端
+            fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, username, password })               // 將資料轉成 JSON
+            })
+                .then(res => res.json())                                         // 回傳 JSON 結果
+                .then(data => {
+                    alert(data.msg);                                             // 顯示回應訊息
+                    if (data.msg === "註冊成功") {                               // 若註冊成功則跳轉回登入頁
+                        window.location.href = "/login";
+                    }
+                });
+        }
+
+        // 返回登入頁面
+        function goBack() {
+            window.location.href = "/login";
+        }
+    </script>
+</body>
+
+</html>

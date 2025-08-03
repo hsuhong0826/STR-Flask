@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8"> <!-- 設定網頁編碼 -->
+    <title>STR(Sketch to Real) - 草圖轉換系統</title> <!-- 網頁標題 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}"> <!-- 引入 CSS 樣式 -->
+</head>
+
+<body>
+    <!-- ================= 頁首 ================= -->
+    <header>
+        <h1>STR(Sketch to Real) - 草圖轉換系統</h1> <!-- 網頁標題文字 -->
+    </header>
+
+    <!-- ✅ 使用者資訊區塊（右上角） -->
+    <div class="user-bar">
+        <span id="welcome-text">您好！</span> <!-- 動態顯示使用者名稱 -->
+        <button class="logout-link" onclick="logout()">登出</button> <!-- 登出按鈕 -->
+    </div>
+
+    <!-- ================= 主內容 ================= -->
+    <main>
+        <div class="main-content">
+
+            <!-- ===== 上傳區 ＋ 結果區 ＋ 箭頭 ===== -->
+            <div class="image-area">
+                <!-- 左邊：上傳圖片預覽區 -->
+                <div class="upload-section">
+                    <div id="input-preview" class="image-box"></div> <!-- 預覽框 -->
+                    <p>請上傳 PNG/JPG 圖片<br>最佳圖片大小為 256×256</p> <!-- 提示文字 -->
+                    <input type="file" id="image-input" accept="image/*" style="display: none;"> <!-- 隱藏檔案選擇器 -->
+                </div>
+
+                <!-- 中間箭頭符號 -->
+                <div class="arrow">➡</div>
+
+                <!-- 右邊：結果圖片預覽區 -->
+                <div class="result-section">
+                    <div id="output-preview" class="image-box"></div> <!-- 預覽轉換後的圖片 -->
+                </div>
+            </div>
+
+            <!-- ===== 按鈕列：上傳／轉換／下載 ===== -->
+            <div class="button-row">
+                <button onclick="triggerFileInput()">上傳圖片</button> <!-- 點擊觸發檔案選擇器 -->
+                <button onclick="convertImage()">轉換圖片</button> <!-- 發送圖片至後端 -->
+                <button onclick="downloadImage()">下載圖片</button> <!-- 將結果圖片下載 -->
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= 頁尾 ================= -->
+    <footer>
+        hong&wen 版權所有 <!-- 版權文字 -->
+    </footer>
+
+    <!-- ================= JavaScript 區塊 ================= -->
+    <script>
+        // ✅ 顯示使用者名稱（從 localStorage 讀取）
+        document.addEventListener("DOMContentLoaded", function () {
+            const name = localStorage.getItem("name");
+            if (name) {
+                document.getElementById("welcome-text").innerText = `${name} 您好！`;
+            } else {
+                window.location.href = "/login"; // 無登入則跳轉回登入頁
+            }
+        });
+
+        // ✅ 登出功能（清除登入資訊）
+        function logout() {
+            localStorage.removeItem("name");
+            localStorage.removeItem("username");
+            window.location.href = "/login"; // 返回登入頁
+        }
+
+        // ✅ 模擬點擊 input 標籤來選擇檔案
+        function triggerFileInput() {
+            document.getElementById("image-input").click();
+        }
+
+        // ✅ 當檔案被選取後，自動預覽至左圖區塊
+        let selectedFile = null; // 全域變數記錄檔案
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("image-input");
+            const previewBox = document.getElementById("input-preview");
+
+            input.addEventListener("change", function (e) {
+                selectedFile = e.target.files[0];
+                if (selectedFile) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        previewBox.style.backgroundImage = `url(${event.target.result})`; // 預覽圖
+                        previewBox.style.backgroundSize = 'cover';
+                        previewBox.style.backgroundPosition = 'center';
+                    };
+                    reader.readAsDataURL(selectedFile); // 讀取檔案為 base64
+                }
+            });
+        });
+
+        // ✅ 傳送圖片到後端伺服器進行模型推論
+        function convertImage() {
+            if (!selectedFile) {
+                alert("請先上傳圖片！");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", selectedFile);
+
+            fetch("/predict", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error("伺服器錯誤");
+                    return response.blob(); // 拿到圖片的二進位資料
+                })
+                .then(resultBlob => {
+                    const url = URL.createObjectURL(resultBlob);
+                    const outputBox = document.getElementById("output-preview");
+                    outputBox.innerHTML = `<img src="${url}" style="width:100%; height:100%;">`; // 顯示結果圖
+                })
+                .catch(err => {
+                    console.error("推論錯誤：", err);
+                    alert("圖片轉換失敗：" + err.message);
+                });
+        }
+
+        // ✅ 下載已轉換圖片功能
+        function downloadImage() {
+            const outputBox = document.getElementById("output-preview");
+            const img = outputBox.querySelector("img");
+
+            if (!img) {
+                alert("尚未產生圖片，請先轉換！");
+                return;
+            }
+
+            const link = document.createElement("a");
+            link.href = img.src;
+            link.download = "converted.png"; // 設定下載檔名
+            document.body.appendChild(link);
+            link.click(); // 觸發下載
+            document.body.removeChild(link); // 清除 DOM
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8"> <!-- 設定編碼為 UTF-8 -->
+    <title>登入 STR 系統</title> <!-- 網頁標題 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> <!-- 引入外部 CSS 樣式 -->
+</head>
+
+<body>
+    <!-- ✅ 外層容器：垂直置中用 -->
+    <div class="container">
+        <div class="login-box"> <!-- 登入框主體 -->
+            <h1>草圖轉真實圖 - 登入系統</h1> <!-- 標題文字 -->
+
+            <input type="text" id="username" placeholder="帳號"> <!-- 輸入帳號 -->
+            <input type="password" id="password" placeholder="密碼"> <!-- 輸入密碼 -->
+
+            <div class="login-btns"> <!-- 登入 / 註冊 按鈕列 -->
+                <button onclick="login()">登入</button> <!-- 登入按鈕 -->
+                <button onclick="window.location.href='/register'">註冊</button> <!-- 跳轉註冊頁 -->
+            </div>
+
+            <button id="forgot-btn" onclick="goToForget()" style="display: none; margin-top: 10px;">
+                忘記密碼？ <!-- 忘記密碼按鈕（預設隱藏） -->
+            </button>
+        </div>
+    </div>
+
+    <!-- ✅ 頁尾區塊 -->
+    <footer>
+        hong&wen 版權所有 <!-- 版權宣告 -->
+    </footer>
+
+    <!-- ✅ JavaScript 功能區 -->
+    <script>
+        // 登入功能
+        function login() {
+            const username = document.getElementById("username").value.trim();  // 取得帳號
+            const password = document.getElementById("password").value.trim();  // 取得密碼
+
+            if (!username || !password) {                                       // 檢查是否為空
+                alert("帳號與密碼不可為空白！");
+                return;
+            }
+
+            // 發送登入請求
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            })
+                .then(res => res.json())                                        // 將回應轉換為 JSON
+                .then(data => {
+                    if (data.msg === "登入成功") {
+                        localStorage.setItem("username", username);            // 儲存帳號於 localStorage
+                        localStorage.setItem("name", data.name);              // 儲存姓名於 localStorage
+                        window.location.href = "/";                  // 跳轉至主頁
+                    } else if (data.show_forget) {
+                        document.getElementById("forgot-btn").style.display = "block"; // 顯示忘記密碼按鈕
+                        alert(data.msg);                                       // 顯示訊息
+                    } else {
+                        alert(data.msg);                                       // 其他錯誤訊息
+                    }
+                });
+        }
+
+        // 忘記密碼頁跳轉
+        function goToForget() {
+            window.location.href = "/forget";
+        }
+
+        // 註冊功能（目前未使用）
+        function register() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.msg);
+                });
+        }
+    </script>
+</body>
+
+</html>

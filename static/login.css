@@ -1,0 +1,139 @@
+/* ✅ 頁面整體樣式設定 */
+body {
+    margin: 0;
+    /* 移除預設外距 */
+    padding: 0;
+    /* 移除預設內距 */
+    background: #c0c0cc;
+    /* 背景顏色：淡紫灰 */
+    font-family: "Segoe UI", sans-serif;
+    /* 使用無襯線字體 */
+    display: flex;
+    /* 使用 flex 排版 */
+    flex-direction: column;
+    /* 垂直排列元素 */
+    min-height: 100vh;
+    /* 最小高度為整個視窗 */
+}
+
+/* ✅ 登入區塊樣式 */
+.login-box {
+    background-color: #ffffff;
+    /* 背景為白色 */
+    padding: 40px 40px;
+    /* 上下左右各 40px 的內距 */
+    border-radius: 12px;
+    /* 圓角 12px */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    /* 陰影效果 */
+    text-align: center;
+    /* 內容置中 */
+    width: 420px;
+    /* 區塊寬度為 420px */
+}
+
+/* ✅ 標題樣式 */
+.login-box h1 {
+    margin-bottom: 25px;
+    /* 標題下方留白 */
+    color: #2a2a2a;
+    /* 深灰色文字 */
+}
+
+/* ✅ 輸入框樣式 */
+.login-box input {
+    width: 90%;
+    /* 寬度為容器的 90% */
+    padding: 12px;
+    /* 內距 12px */
+    margin: 10px 0;
+    /* 上下間距為 10px */
+    border: 1px solid #ccc;
+    /* 淺灰色邊框 */
+    border-radius: 6px;
+    /* 圓角邊框 */
+    font-size: 16px;
+    /* 字體大小為 16px */
+}
+
+/* ✅ 按鈕區塊（左右排列） */
+.login-btns {
+    display: flex;
+    /* 使用 flex 排版 */
+    justify-content: space-between;
+    /* 左右分散排列 */
+    margin-top: 20px;
+    /* 上方間距 20px */
+}
+
+/* ✅ 登入與註冊按鈕樣式 */
+.login-btns button {
+    width: 48%;
+    /* 每顆按鈕寬度約一半 */
+    padding: 12px;
+    /* 內距 12px */
+    background-color: #2a5daa;
+    /* 按鈕背景色（藍色） */
+    color: #fff;
+    /* 白色文字 */
+    border: none;
+    /* 無邊框 */
+    border-radius: 6px;
+    /* 圓角按鈕 */
+    font-size: 16px;
+    /* 字體大小 16px */
+    cursor: pointer;
+    /* 滑鼠指標變成點擊手勢 */
+}
+
+/* ✅ 忘記密碼按鈕樣式 */
+.login-box #forgot-btn {
+    margin-top: 15px;
+    /* 上方留白 15px */
+    color: #2a5daa;
+    /* 藍色文字 */
+    background: none;
+    /* 無背景色 */
+    border: none;
+    /* 無邊框 */
+    cursor: pointer;
+    /* 滑鼠為指標 */
+    font-size: 14px;
+    /* 字體大小 14px */
+}
+
+/* ✅ 滑鼠移上忘記密碼按鈕時加上底線 */
+.login-box #forgot-btn:hover {
+    text-decoration: underline;
+    /* 滑鼠移上時加底線 */
+}
+
+/* ✅ 登入/註冊按鈕 hover 時變深藍 */
+.login-btns button:hover {
+    background-color: #1e4a90;
+    /* 滑鼠移上時改深藍色 */
+}
+
+/* ✅ 外層容器置中設定 */
+.container {
+    flex: 1;
+    /* 撐滿剩餘高度 */
+    display: flex;
+    /* 使用 flex 排版 */
+    justify-content: center;
+    /* 水平置中 */
+    align-items: center;
+    /* 垂直置中 */
+}
+
+/* ✅ 頁尾樣式 */
+footer {
+    text-align: center;
+    /* 置中對齊文字 */
+    background: #d7e6f9;
+    /* 淺藍背景 */
+    padding: 10px;
+    /* 內距 10px */
+    font-weight: bold;
+    /* 粗體字 */
+}
