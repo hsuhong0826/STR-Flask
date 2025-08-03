@@ -6,6 +6,7 @@ import io                                                         # 在記憶體
 import mysql.connector                                            # 連接與操作 MySQL 資料庫
 from model import load_model, run_inference                       # 載入自定義模型與推論函式
 from datetime import datetime, timedelta                          # 處理時間（登入錯誤紀錄等用途）
+import os
 from flask import render_template
 
 # ===================== 建立 Flask 應用 =====================
@@ -167,4 +168,5 @@ def forget():
 
 # ===================== 啟動伺服器 =====================
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)  # 啟動 Flask，監聽所有 IP 並開啟除錯模式
+        port = int(os.environ.get("PORT", 10000))
+        app.run(host="0.0.0.0", port=port)  # 啟動 Flask，監聽所有 IP 並開啟除錯模式
